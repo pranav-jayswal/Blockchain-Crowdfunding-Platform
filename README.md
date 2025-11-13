@@ -1,8 +1,8 @@
 # Blockchain Crowdfunding Platform
 
-Student Name: Pranav Jayswal, Moksh Desai, Nevil Sagpariya 
-Course:B.TECH (CE-SE)
-Date: 14 November 2025
+**Student Name:** Pranav Jayswal, Moksh Desai, Nevil Sagpariya 
+**Course:** B.TECH (CE-SE)
+**Date:** 14 November 2025
 
 ## 🚀 Project Overview
 

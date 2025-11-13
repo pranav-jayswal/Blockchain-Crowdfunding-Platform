@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockFund - Blockchain Crowdfunding Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f9fafb;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563eb 0%, #9333ea 100%);
+        }
+
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+
+        .card {
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn {
+            transition: all 0.2s ease;
+        }
+
+        .modal {
+            backdrop-filter: blur(4px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="gradient-bg p-2 rounded-lg">
+                        <svg class="text-white w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        BlockFund
+                    </span>
+                </div>
+                
+                <div class="flex gap-1 bg-gray-100 rounded-lg p-1">
+                    <button onclick="showTab('home')" class="tab-btn px-4 py-2 rounded-lg font-medium text-gray-600" id="tab-home">
+                        🏠 Home
+                    </button>
+                    <button onclick="showTab('campaigns')" class="tab-btn px-4 py-2 rounded-lg font-medium text-gray-600" id="tab-campaigns">
+                        🚀 Campaigns
+                    </button>
+                    <button onclick="showTab('create')" class="tab-btn px-4 py-2 rounded-lg font-medium text-gray-600" id="tab-create">
+                        ➕ Create
+                    </button>
+                    <button onclick="showTab('history')" class="tab-btn px-4 py-2 rounded-lg font-medium text-gray-600" id="tab-history">
+                        📜 History
+                    </button>
+                    <button onclick="showTab('about')" class="tab-btn px-4 py-2 rounded-lg font-medium text-gray-600" id="tab-about">
+                        ℹ️ About
+                    </button>
+                </div>
+
+                <div class="text-sm">
+                    <div class="bg-gray-100 px-4 py-2 rounded-lg">
+                        <span class="text-gray-600">Wallet: </span>
+                        <span class="font-mono font-semibold text-gray-800">0x742d...bEb</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Home Tab -->
+        <div id="content-home" class="tab-content">
+            <div class="gradient-bg rounded-2xl p-8 text-white mb-8">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl font-bold mb-4">Empower Innovation Through Blockchain</h1>
+                    <p class="text-xl mb-6 opacity-90">
+                        A decentralized crowdfunding platform where transparency meets opportunity. 
+                        Back projects you believe in with cryptocurrency.
+                    </p>
+                    <div class="flex gap-4">
+                        <button onclick="showTab('campaigns')" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                            Explore Campaigns
+                        </button>
+                        <button onclick="showTab('create')" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800">
+                            Start a Campaign
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <span class="text-2xl">📈</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">Total Raised</h3>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900">389.5 ETH</p>
+                    <p class="text-sm text-gray-500 mt-1">Across all campaigns</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-blue-100 p-3 rounded-lg">
+                            <span class="text-2xl">🚀</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">Active Campaigns</h3>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900">5</p>
+                    <p class="text-sm text-gray-500 mt-1">Currently fundraising</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-purple-100 p-3 rounded-lg">
+                            <span class="text-2xl">👥</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">Total Backers</h3>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900">2,512</p>
+                    <p class="text-sm text-gray-500 mt-1">Community supporters</p>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Featured Campaigns</h2>
+                <div id="featured-campaigns" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+            </div>
+        </div>
+
+        <!-- Campaigns Tab -->
+        <div id="content-campaigns" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+                <h2 class="text-3xl font-bold text-gray-800">All Campaigns</h2>
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Search campaigns..." 
+                           class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           oninput="filterCampaigns()">
+                    <svg class="absolute left-3 top-3 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+            <div id="all-campaigns" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Create Tab -->
+        <div id="content-create" class="tab-content hidden">
+            <div class="max-w-3xl">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Create New Campaign</h2>
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Campaign Name</label>
+                            <input type="text" id="new-name" placeholder="Enter your campaign name" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                            <textarea id="new-description" placeholder="Describe your project and goals" rows="4"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Target Amount (ETH)</label>
+                                <input type="number" id="new-target" placeholder="50" 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Campaign Duration (days)</label>
+                                <input type="number" id="new-duration" placeholder="30" 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+                            <select id="new-category" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Technology</option>
+                                <option>Environment</option>
+                                <option>Education</option>
+                                <option>Healthcare</option>
+                                <option>Arts</option>
+                                <option>Agriculture</option>
+                            </select>
+                        </div>
+                        <button onclick="createCampaign()" class="w-full gradient-bg text-white py-4 rounded-lg font-semibold hover:opacity-90">
+                            Launch Campaign
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="content-history" class="tab-content hidden">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Transaction History</h2>
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Date</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Campaign</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Amount</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-history" class="divide-y divide-gray-200"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="content-about" class="tab-content hidden">
+            <div class="max-w-4xl">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">About Our Platform</h2>
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Decentralized Crowdfunding</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Our blockchain-based crowdfunding platform leverages the power of smart contracts to create 
+                        a transparent, secure, and efficient fundraising ecosystem. Every transaction is recorded on 
+                        the blockchain, ensuring complete transparency and trust between creators and backers.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="border border-blue-200 rounded-lg p-6 bg-blue-50">
+                            <div class="text-4xl mb-3">🎯</div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Smart Contracts</h4>
+                            <p class="text-gray-600 text-sm">Automated fund distribution based on predefined milestones and goals</p>
+                        </div>
+                        <div class="border border-green-200 rounded-lg p-6 bg-green-50">
+                            <div class="text-4xl mb-3">🏆</div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Transparency</h4>
+                            <p class="text-gray-600 text-sm">Every transaction is publicly verifiable on the blockchain</p>
+                        </div>
+                        <div class="border border-purple-200 rounded-lg p-6 bg-purple-50">
+                            <div class="text-4xl mb-3">💰</div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Low Fees</h4>
+                            <p class="text-gray-600 text-sm">Minimal platform fees with no hidden charges</p>
+                        </div>
+                        <div class="border border-orange-200 rounded-lg p-6 bg-orange-50">
+                            <div class="text-4xl mb-3">🌍</div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Global Reach</h4>
+                            <p class="text-gray-600 text-sm">Connect with backers worldwide without geographical limitations</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Smart Contract Features</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Automatic refunds if campaign goals are not met</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Milestone-based fund release for project creators</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Immutable record of all contributions and withdrawals</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Built-in governance for backer voting on project decisions</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Donation Modal -->
+    <div id="donate-modal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8">
+            <h3 class="text-2xl font-bold mb-4 text-gray-800" id="modal-campaign-name">Campaign Name</h3>
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Donation Amount (ETH)</label>
+                <input type="number" id="donate-amount" step="0.01" placeholder="0.00" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-600">Current Progress</span>
+                    <span class="font-semibold text-gray-800" id="modal-progress">0 / 0 ETH</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Days Remaining</span>
+                    <span class="font-semibold text-gray-800" id="modal-days">0 days</span>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="closeModal()" class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button onclick="confirmDonation()" class="flex-1 px-6 py-3 gradient-bg text-white rounded-lg font-semibold hover:opacity-90">
+                    Confirm Donation
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-gray-200 mt-16">
+        <div class="max-w-7xl mx-auto px-6 py-8 text-center text-gray-600">
+            <p class="mb-2">Powered by Ethereum Smart Contracts</p>
+            <p class="text-sm">Transparent • Secure • Decentralized</p>
+        </div>
+    </footer>
+
+    <script>
+        // Campaign data
+        let campaigns = [
+            {
+                id: 1,
+                name: "Revolutionary Solar Panel Tech",
+                creator: "0x1234...5678",
+                description: "Next-generation solar panels with 45% efficiency. Help us bring clean energy to 10,000 homes.",
+                targetAmount: 50,
+                currentAmount: 38.5,
+                deadline: new Date('2025-12-15'),
+                backers: 287,
+                category: "Technology",
+                status: "active",
+                image: "🌞"
+            },
+            {
+                id: 2,
+                name: "Ocean Cleanup Initiative",
+                creator: "0x8765...4321",
+                description: "Deploy autonomous drones to remove plastic from ocean gyres. Join us in cleaning our oceans.",
+                targetAmount: 100,
+                currentAmount: 94.2,
+                deadline: new Date('2025-11-30'),
+                backers: 542,
+                category: "Environment",
+                status: "active",
+                image: "🌊"
+            },
+            {
+                id: 3,
+                name: "AI-Powered Education Platform",
+                creator: "0x9876...1234",
+                description: "Personalized learning platform using AI to help students in underserved communities.",
+                targetAmount: 75,
+                currentAmount: 45.8,
+                deadline: new Date('2026-01-20'),
+                backers: 398,
+                category: "Education",
+                status: "active",
+                image: "🎓"
+            },
+            {
+                id: 4,
+                name: "Urban Vertical Farm",
+                creator: "0x5432...8765",
+                description: "Building sustainable vertical farms in city centers to provide fresh produce locally.",
+                targetAmount: 120,
+                currentAmount: 120,
+                deadline: new Date('2025-10-01'),
+                backers: 675,
+                category: "Agriculture",
+                status: "completed",
+                image: "🌱"
+            },
+            {
+                id: 5,
+                name: "Medical Drone Delivery",
+                creator: "0x2468...1357",
+                description: "Emergency medical supplies delivered by drone to remote areas in under 30 minutes.",
+                targetAmount: 85,
+                currentAmount: 62.3,
+                deadline: new Date('2025-12-31'),
+                backers: 421,
+                category: "Healthcare",
+                status: "active",
+                image: "🚁"
+            },
+            {
+                id: 6,
+                name: "Blockchain Art Gallery",
+                creator: "0x1357...2468",
+                description: "Decentralized gallery showcasing NFT art from emerging artists worldwide.",
+                targetAmount: 40,
+                currentAmount: 28.7,
+                deadline: new Date('2025-11-25'),
+                backers: 189,
+                category: "Arts",
+                status: "active",
+                image: "🎨"
+            }
+        ];
+
+        let transactions = [
+            { id: 1, campaign: "Revolutionary Solar Panel Tech", amount: 2.5, date: new Date('2025-11-10'), type: "donation" },
+            { id: 2, campaign: "Ocean Cleanup Initiative", amount: 5.0, date: new Date('2025-11-08'), type: "donation" },
+            { id: 3, campaign: "AI-Powered Education Platform", amount: 1.8, date: new Date('2025-11-05'), type: "donation" }
+        ];
+
+        let selectedCampaign = null;
+
+        // Helper functions
+        function calculateProgress(current, target) {
+            return Math.min((current / target) * 100, 100);
+        }
+
+        function getDaysRemaining(deadline) {
+            const now = new Date();
+            const diff = deadline - now;
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return days > 0 ? days : 0;
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString();
+        }
+
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-blue-600', 'shadow-md');
+                btn.classList.add('text-gray-600');
+            });
+            
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('bg-white', 'text-blue-600', 'shadow-md');
+            document.getElementById(`tab-${tabName}`).classList.remove('text-gray-600');
+        }
+
+        // Render campaign card
+        function renderCampaignCard(campaign) {
+            const progress = calculateProgress(campaign.currentAmount, campaign.targetAmount);
+            const daysLeft = getDaysRemaining(campaign.deadline);
+            
+            return `
+                <div class="card bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="gradient-bg p-8 text-center">
+                        <div class="text-6xl mb-2">${campaign.image}</div>
+                        <span class="inline-block bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-semibold">
+                            ${campaign.category}
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">${campaign.name}</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${campaign.description}</p>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="font-semibold text-gray-700">
+                                    ${campaign.currentAmount} ETH <span class="text-gray-500">raised</span>
+                                </span>
+                                <span class="text-gray-500">${campaign.targetAmount} ETH goal</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                <div class="progress-bar bg-gradient-to-r from-green-400 to-green-600 h-full" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">${progress.toFixed(1)}% funded</div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <span>👥</span>
+                                <span>${campaign.backers} backers</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <span>⏰</span>
+                                <span>${daysLeft} days left</span>
+                            </div>
+                        </div>
+
+                        ${campaign.status === 'active' ? 
+                            `<button onclick="openDonateModal(${campaign.id})" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700">
+                                Back This Project
+                            </button>` :
+                            `<div class="w-full bg-green-100 text-green-700 py-3 rounded-lg font-semibold text-center flex items-center justify-center gap-2">
+                                🏆 Successfully Funded
+                            </div>`
+                        }
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render all campaigns
+        function renderCampaigns() {
+            const featuredContainer = document.getElementById('featured-campaigns');
+            const allContainer = document.getElementById('all-campaigns');
+            
+            const activeCampaigns = campaigns.filter(c => c.status === 'active');
+            featuredContainer.innerHTML = activeCampaigns.slice(0, 4).map(renderCampaignCard).join('');
+            allContainer.innerHTML = campaigns.map(renderCampaignCard).join('');
+        }
+
+        // Filter campaigns
+        function filterCampaigns() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filtered = campaigns.filter(c => 
+                c.name.toLowerCase().includes(searchTerm) || 
+                c.category.toLowerCase().includes(searchTerm)
+            );
+            document.getElementById('all-campaigns').innerHTML = filtered.map(renderCampaignCard).join('');
+        }
+
+        // Render transaction history
+        function renderHistory() {
+            const tbody = document.getElementById('transaction-history');
+            tbody.innerHTML = transactions.map(tx => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 text-sm text-gray-600">${formatDate(tx.date)}</td>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-800">${tx.campaign}</td>
+                    <td class="px-6 py-4 text-sm text-gray-600">${tx.amount} ETH</td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                            Completed
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Modal functions
+        function openDonateModal(campaignId) {
+            selectedCampaign = campaigns.find(c => c.id === campaignId);
+            if (!selectedCampaign) return;
+
+            document.getElementById('modal-campaign-name').textContent = `Back: ${selectedCampaign.name}`;
+            document.getElementById('modal-progress').textContent = 
+                `${selectedCampaign.currentAmount} / ${selectedCampaign.targetAmount} ETH`;
+            document.getElementById('modal-days').textContent = 
+                `${getDaysRemaining(selectedCampaign.deadline)} days`;
+            document.getElementById('donate-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('donate-modal').classList.add('hidden');
+            document.getElementById('donate-amount').value = '';
+            selectedCampaign = null;
+        }
+
+        function confirmDonation() {
+            const amount = parseFloat(document.getElementById('donate-amount').value);
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid donation amount!');
+                return;
+            }
+
+            if (!selectedCampaign) return;
+
+            // Update campaign
+            const campaignIndex = campaigns.findIndex(c => c.id === selectedCampaign.id);
+            campaigns[campaignIndex].currentAmount += amount;
+            campaigns[campaignIndex].backers += 1;
+
+            if (campaigns[campaignIndex].currentAmount >= campaigns[campaignIndex].targetAmount) {
+                campaigns[campaignIndex].status = 'completed';
+            }
+
+            // Add transaction
+            transactions.unshift({
+                id: transactions.length + 1,
+                campaign: selectedCampaign.name,
+                amount: amount,
+                date: new Date(),
+                type: 'donation'
+            });
+
+            alert(`Successfully donated ${amount} ETH to ${selectedCampaign.name}! 🎉`);
+            
+            closeModal();
+            renderCampaigns();
+            renderHistory();
+        }
+
+        // Create new campaign
+        function createCampaign() {
+            const name = document.getElementById('new-name').value;
+            const description = document.getElementById('new-description').value;
+            const target = parseFloat(document.getElementById('new-target').value);
+            const duration = parseInt(document.getElementById('new-duration').value);
+            const category = document.getElementById('new-category').value;
+
+            if (!name || !description || !target || !duration) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const deadline = new Date();
+            deadline.setDate(deadline.getDate() + duration);
+
+            const emojis = {
+                'Technology': '💻',
+                'Environment': '🌿',
+                'Education': '📚',
+                'Healthcare': '⚕️',
+                'Arts': '🎨',
+                'Agriculture': '🌾'
+            };
+
+            const newCampaign = {
+                id: campaigns.length + 1,
+                name: name,
+                creator: "0x742d...bEb",
+                description: description,
+                targetAmount: target,
+                currentAmount: 0,
+                deadline: deadline,
+                backers: 0,
+                category: category,
+                status: "active",
+                image: emojis[category] || '🚀'
+            };
+
+            campaigns.push(newCampaign);
+            
+            alert('Campaign created successfully! 🎉');
+            
+            // Clear form
+            document.getElementById('new-name').value = '';
+            document.getElementById('new-description').value = '';
+            document.getElementById('new-target').value = '';
+            document.getElementById('new-duration').value = '';
+            
+            renderCampaigns();
+            showTab('campaigns');
+        }
+
+        // Initialize
+        window.onload = function() {
+            renderCampaigns();
+            renderHistory();
+            showTab('home');
+        };
+    </script>
+</body>
+</html>

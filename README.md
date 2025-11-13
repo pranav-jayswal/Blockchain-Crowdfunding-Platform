@@ -28,7 +28,7 @@ A decentralized crowdfunding platform built with blockchain technology (Solidity
 ## 📱 How to Run
 
 ### Method 1: GitHub Pages (Live Demo)
-Visit: https://pranav-jayswal.github.io/blockchain-crowdfunding-platform/
+Visit: https://pranav-jayswal.github.io/Blockchain-Crowdfunding-Platform/
 
 ### Method 2: Local Testing
 1. Download `index.html`
@@ -70,5 +70,5 @@ The Solidity smart contract for this platform is included in the documentation w
 
 ---
 
-**Live Demo:** [GitHub Pages Link]  
-**Repository:** [GitHub Repo Link]
+**Live Demo:** https://pranav-jayswal.github.io/Blockchain-Crowdfunding-Platform/
+**Repository:** https://github.com/pranav-jayswal/Blockchain-Crowdfunding-Platform

@@ -61,7 +61,7 @@ The Solidity smart contract for this platform is included in the documentation w
 - Automatic refunds if goals not met
 - Fund withdrawal for successful campaigns
 
-## 📝 Notes for Professor
+## 📝 Notes
 
 - All functionality works without blockchain connection (demo mode)
 - Smart contract code provided for reference
